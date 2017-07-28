@@ -119,21 +119,29 @@ void Microchip_25AA02E48::writeRegister(uint8_t addr, uint8_t value) {
 
 void Microchip_25AA02E48::writeRegister(uint8_t addr, uint8_t *buffer, int len) {
   int index = 0;
-  // take the chip select low to select the device:
-  digitalWrite(_cs, LOW);
-  SPI.transfer(WREN);
-  digitalWrite(_cs, HIGH);
-
-  digitalWrite(_cs, LOW);
-
-  SPI.transfer(WRITE_instruction);
-  SPI.transfer(addr); //Send register location
-  while(len > index)
+  while (len > index) 
   {
-    SPI.transfer(buffer[index]);
-    index++;
-  }
+    // Check which page we are writing to
+    uint8_t page = (addr + index) >> 4;
 
-  // take the chip select high to de-select:
-  digitalWrite(_cs, HIGH);
+    // take the chip select low to select the device:
+    digitalWrite(_cs, LOW);
+    SPI.transfer(WREN);
+    digitalWrite(_cs, HIGH);
+
+    digitalWrite(_cs, LOW);
+
+    SPI.transfer(WRITE_instruction);
+    SPI.transfer(addr); //Send register location
+    while(len > index && page == index >> 4)
+    {
+      SPI.transfer(buffer[index]);
+      index++;
+    }
+
+    // take the chip select high to de-select:
+    digitalWrite(_cs, HIGH);
+    // Hold the _cs HIGH in case we are writing to another page
+    delay(5);
+  }
 }
