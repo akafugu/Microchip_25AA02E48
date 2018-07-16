@@ -6,17 +6,17 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-Microchip_25AA02E48   KEYWORD1
+Microchip_25AA02E48	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-readStatus     KEYWORD2
-readRegister   KEYWORD2
-getEUI48       KEYWORD2
-getEUI64       KEYWORD2
-writeRegister  KEYWORD2
+readStatus	KEYWORD2
+readRegister	KEYWORD2
+getEUI48	KEYWORD2
+getEUI64	KEYWORD2
+writeRegister	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
